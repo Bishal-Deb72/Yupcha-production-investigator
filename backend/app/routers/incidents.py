@@ -1,3 +1,4 @@
+import json
 from fastapi import APIRouter
 from fastapi import Depends
 from app.services.parser import parse_logs
@@ -7,22 +8,12 @@ from app.services.parser import parse_logs
 from app.services.analyzer import analyze_incident
 from app.services.explainability import explain
 from app.services.confidence import confidence_score
-
 from app.services.parser import parse_logs
-
 from app.services.timeline import reconstruct_timeline
-
 from app.services.rules import generate_hypotheses
-
 from sqlalchemy.orm import Session
-
-
 from app.core.database import get_db
-
-
 from app.models.incident import Incident
-
-
 from app.schemas.incident import (
         IncidentCreate,
         IncidentResponse
@@ -168,7 +159,7 @@ def analyze(data:dict, db:Session=Depends(get_db)):
 
 
 
-    result = analyze_incident(
+    analysis  = analyze_incident(
 
             parsed,
 
